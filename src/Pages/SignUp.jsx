@@ -85,7 +85,7 @@ const SignUp = () => {
 
       <div className="mb-4">
         <label className="block text-gray-700 border-blue-300 font-semibold">Password</label>
-        <input type="password" name='password' placeholder="********" 
+        <input type="password" name='password' placeholder="" 
                className="w-full text-xl font-semibold text-black border-blue-300 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" required/>
       </div>
 

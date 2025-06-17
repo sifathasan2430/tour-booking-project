@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 
 const Banner = () => {
+  const navigate=useNavigate()
     return (
         <div
   className="hero min-h-screen"
@@ -16,7 +18,7 @@ const Banner = () => {
       <p className="mb-5">
        Discover Your Next Adventure with Our Exclusive Tour Packages!
       </p>
-      <button className="btn btn-primary">Explore All Packages</button>
+      <button className="btn btn-primary" onClick={()=>navigate("/allpackage")} >Explore All Packages</button>
     </div>
   </div>
 </div>
