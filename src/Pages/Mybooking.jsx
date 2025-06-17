@@ -92,9 +92,10 @@ const Mybooking = () => {
 <td>{items.departureLocation}</td>
 <td>{items.destination}</td>
                 <td>
-                  <select onChange={(e)=>updateStatus(e,items._id)} defaultValue={items.status} className="select">
-  <option disabled={true}>{items?.status}</option>
+                  <select  onChange={(e)=>updateStatus(e,items._id)} defaultValue={items.status} className="select w-[120px]">
+  <option className='' disabled={true}>{items?.status}</option>
   <option> Completed</option>
+  <option>Pending</option>
  
 </select>
                 </td>
@@ -102,7 +103,7 @@ const Mybooking = () => {
             ))}
           </tbody>
           {/* foot */}
-        </table> : <tr><td>Server is loading or on Data Added</td></tr>}
+        </table> : <tr><td> loading </td></tr>}
       
     </div>
     );
