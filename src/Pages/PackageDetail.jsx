@@ -62,14 +62,14 @@ const PackageDetail = () => {
    }
    
     return (
-        <div class="p-6 max-w-5xl mx-auto space-y-6">
+        <div class="py-2 md:p-6 max-w-5xl mx-auto space-y-6">
 
   <div class="flex justify-between items-center">
-    <h1 class="text-2xl font-semibold">{packageInfo.
+    <h1 class="text-xl md:text-2xl font-semibold">{packageInfo.
 tourName
     }</h1>
-    <span class="bg-blue-600 dark:text-white text-sm font-medium px-3 py-1 rounded">{packageInfo.duration}
-    </span>
+    <h1 class="bg-blue-600 dark:text-white text-sm font-medium px-3 py-1 rounded">{packageInfo.duration}
+    </h1>
   </div>
 
  
@@ -81,7 +81,7 @@ packageInfo.departureLocation}</p></div>
 destination
 }</p></div>
     <div><p class="font-medium">Best Season</p><p>Autumn</p></div>
-    <div className='flex flex-col justify-center items-center'>
+    <div className='col-span-2 md:col-span-1 flex flex-col  justify-center items-center'>
         <div>
     <img className='w-10 rounded-4xl' src={packageInfo.guidePhoto} alt="" />
 </div>
@@ -182,9 +182,10 @@ packageDetails}
 </div>
     <div className="modal-action">
       
-          <form method="dialog" onSubmit={handler} class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <form method="dialog" onSubmit={handler} className="max-w-[500px] py-2 h-[70%] grid   md:grid-cols-2 gap-6">
     
-    <div>
+  
+  <div>
       <label class="block text-sm font-medium text-gray-700">Tour Package Name *</label>
       <input type="text" name='tour_name' defaultValue={packageInfo.tourName} class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 text-black focus:ring-blue-500" readOnly />
     </div>
@@ -228,8 +229,9 @@ packageDetails}
      
   </div>
   <div>
-     <button onClick={()=>document.getElementById('my_modal_1').close()} className='btn btn-primary w-full'  type='submit'>Submit</button>
+     <button onClick={()=>document.getElementById('my_modal_1').close()} className='btn  btn-primary w-full'  type='submit'>Submit</button>
    </div>
+  
    
   </form>
        

@@ -8,7 +8,7 @@ import Loader from '../Component/Loader';
 const Root = () => {
     const navigation=useNavigation()
     return (
-        <div className='dark:bg-gray-700'>
+        <div className='dark:bg-gray-700 '>
              <Navbar></Navbar>
              {
                 navigation.state=='loading' ?<Loader></Loader>: <div className='max-w-7xl py-6 mx-auto'>
