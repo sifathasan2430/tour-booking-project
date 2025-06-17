@@ -35,14 +35,8 @@ const formHandler=(e)=>{
 }
     return (
         <div className="w-full">
-      {/* Slider */}
-      <div className="w-full h-[300px] md:h-[400px] overflow-hidden mb-6">
-        <img
-          src="https://source.unsplash.com/1600x600/?travel,nature"
-          alt="slider"
-          className="w-full h-full object-cover rounded-lg"
-        />
-      </div>
+      
+     
 
       {/* Form Section */}
       <div className="max-w-4xl mx-auto bg-white p-6 md:p-10 shadow-lg rounded-xl mb-10">

@@ -60,7 +60,7 @@ const Allpackage = () => {
       <path d="m21 21-4.3-4.3"></path>
     </g>
   </svg>
-  <input name='area' type="search" required placeholder="Filter your location" />
+  <input name='area' type="search" required placeholder="Filter your  location" />
 </label>
  <button type='submit' className="btn btn-neutral join-item">Search</button>
             </form>
