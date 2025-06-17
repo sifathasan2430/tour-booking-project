@@ -102,7 +102,7 @@ const Mybooking = () => {
             ))}
           </tbody>
           {/* foot */}
-        </table> : <Loader></Loader>}
+        </table> : <tr><td>Server is loading or on Data Added</td></tr>}
       
     </div>
     );
