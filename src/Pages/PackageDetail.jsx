@@ -1,5 +1,5 @@
 import React, {  useContext,  useState } from 'react';
-import { useLoaderData } from 'react-router';
+import { useLoaderData, useLocation } from 'react-router';
 import UserAuthContext from '../Context/Context';
 
 import Swal from 'sweetalert2';
@@ -7,9 +7,12 @@ import useAxiosSecure from '../Customhook/useAxiosSecure';
 
 
 const PackageDetail = () => {
+  
+ 
+  
   const axiosSecure=useAxiosSecure()
  const packageInfo=useLoaderData()
- 
+ console.log(packageInfo)
 
   const [date,setDate]=useState(new Date(Date.now()).toLocaleDateString())
    

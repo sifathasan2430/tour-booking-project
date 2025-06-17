@@ -18,6 +18,7 @@ import { getAuth } from "firebase/auth";
 import auth from "../FireBase/firebase.config";
 import axiosLoader from "../Utilites/CustomAxios";
 import NotFound from "../Pages/Notfound";
+import Loader from "../Component/Loader";
 
 
 
@@ -60,7 +61,7 @@ const router = createBrowserRouter([
       {
         path: "/packageDetail/:id",
        loader:async({params})=>{
- const   response=   await axiosLoader.get(`/package/${params.id}`)
+ const   response=   await axios.get(`https://tour-management-server-side.vercel.app/package/${params.id}`)
     return response.data
 
        }
@@ -70,7 +71,7 @@ const router = createBrowserRouter([
         
         element: 
           <Privateroutes>
-            <Suspense fallback={<h1>loading</h1>}>
+            <Suspense fallback={<Loader></Loader>}>
               <PackageDetail></PackageDetail>
             </Suspense>
           </Privateroutes>
