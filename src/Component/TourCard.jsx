@@ -111,7 +111,7 @@ console.log(tour)
           </div>
           
           <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-lg text-sm font-medium transition-all duration-300 hover:shadow-md">
-            ViewDetails
+            <NavLink to={`/packageDetail/${tour._id}`}>ViewDetails</NavLink>
           </button>
         </div>
       </div>

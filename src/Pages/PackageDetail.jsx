@@ -1,43 +1,44 @@
 import { FaStar, FaMapMarkerAlt, FaClock, FaCalendarAlt, FaUserAlt, FaHeart, FaRegHeart, FaShareAlt } from 'react-icons/fa';
 import { FiArrowRight } from 'react-icons/fi';
 import { useState } from 'react';
-import { useParams } from 'react-router';
+import { useLoaderData, useParams } from 'react-router';
 
 const PackageDetails = () => {
   const { id } = useParams();
   const [isFavorite, setIsFavorite] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [quantity, setQuantity] = useState(1);
+const packageData=useLoaderData()
 
   // Sample data - replace with your actual data fetching
-  const packageData = {
-    id: id,
-    image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80',
-    title: 'Premium Bali Adventure',
-    location: 'Bali, Indonesia',
-    rating: 4.8,
-    reviews: 124,
-    duration: '7 Days',
-    departureDate: '2023-11-15',
-    groupSize: 'Max 12',
-    difficulty: 'Moderate',
-    price: 1299,
-    discount: 15,
-    description: 'Experience the magic of Bali with our premium adventure package. This carefully curated journey takes you through Bali\'s most breathtaking landscapes, from lush jungles to pristine beaches, with luxury accommodations and expert guides.',
-    highlights: [
-      'Private villa accommodation',
-      'Daily breakfast included',
-      '3 guided cultural tours',
-      'Airport transfers',
-      '24/7 support'
-    ],
-    itinerary: [
-      { day: 1, title: 'Arrival & Ubud Tour', description: 'Arrive at Ngurah Rai Airport and transfer to your private villa. After settling in, enjoy a guided tour of Ubud\'s famous temples and markets.' },
-      { day: 2, title: 'Waterfall Adventure', description: 'Explore Bali\'s most spectacular waterfalls with a private guide, including Tegenungan and Tukad Cepung.' }
-    ],
-    included: ['Accommodation', 'Meals as listed', 'All tours', 'Entrance fees', 'English guide'],
-    notIncluded: ['Flights', 'Travel insurance', 'Personal expenses']
-  };
+  // const packageData = {
+  //   id: id,
+  //   image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80',
+  //   title: 'Premium Bali Adventure',
+  //   location: 'Bali, Indonesia',
+  //   rating: 4.8,
+  //   reviews: 124,
+  //   duration: '7 Days',
+  //   departureDate: '2023-11-15',
+  //   groupSize: 'Max 12',
+  //   difficulty: 'Moderate',
+  //   price: 1299,
+  //   discount: 15,
+  //   description: 'Experience the magic of Bali with our premium adventure package. This carefully curated journey takes you through Bali\'s most breathtaking landscapes, from lush jungles to pristine beaches, with luxury accommodations and expert guides.',
+  //   highlights: [
+  //     'Private villa accommodation',
+  //     'Daily breakfast included',
+  //     '3 guided cultural tours',
+  //     'Airport transfers',
+  //     '24/7 support'
+  //   ],
+  //   itinerary: [
+  //     { day: 1, title: 'Arrival & Ubud Tour', description: 'Arrive at Ngurah Rai Airport and transfer to your private villa. After settling in, enjoy a guided tour of Ubud\'s famous temples and markets.' },
+  //     { day: 2, title: 'Waterfall Adventure', description: 'Explore Bali\'s most spectacular waterfalls with a private guide, including Tegenungan and Tukad Cepung.' }
+  //   ],
+  //   included: ['Accommodation', 'Meals as listed', 'All tours', 'Entrance fees', 'English guide'],
+  //   notIncluded: ['Flights', 'Travel insurance', 'Personal expenses']
+  // };
 
   const toggleFavorite = () => {
     setIsFavorite(!isFavorite);
