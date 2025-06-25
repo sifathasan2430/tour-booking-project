@@ -65,9 +65,7 @@ framer-motion
 tailwindcss
 daisyui
 
-shell
-Copy
-Edit
+
 
 ### ➤ Backend
 
