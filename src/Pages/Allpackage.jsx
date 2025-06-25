@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
 import TourCardGrid from '../Component/TourCard';
-import axios from 'axios';
+
 import UserAuthContext from '../Context/Context';
 import useAxiosSecure from '../Customhook/useAxiosSecure';
 import Loader from '../Component/Loader';
-import { h1 } from 'framer-motion/client';
+
 
 
 
@@ -16,7 +16,7 @@ const Allpackage = () => {
   
   const {user}=useContext(UserAuthContext)
 
-  const token=user?.accessToken
+
   
     const [search,setSearch]=useState("")
     

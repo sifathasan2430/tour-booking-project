@@ -1,252 +1,316 @@
-import React, {  useContext,  useState } from 'react';
-import { useLoaderData, useLocation } from 'react-router';
-import UserAuthContext from '../Context/Context';
+import { FaStar, FaMapMarkerAlt, FaClock, FaCalendarAlt, FaUserAlt, FaHeart, FaRegHeart, FaShareAlt } from 'react-icons/fa';
+import { FiArrowRight } from 'react-icons/fi';
+import { useState } from 'react';
+import { useParams } from 'react-router';
 
-import Swal from 'sweetalert2';
-import useAxiosSecure from '../Customhook/useAxiosSecure';
+const PackageDetails = () => {
+  const { id } = useParams();
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [activeTab, setActiveTab] = useState('overview');
+  const [quantity, setQuantity] = useState(1);
 
+  // Sample data - replace with your actual data fetching
+  const packageData = {
+    id: id,
+    image: 'https://images.unsplash.com/photo-1506929562872-bb421503ef21?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=80',
+    title: 'Premium Bali Adventure',
+    location: 'Bali, Indonesia',
+    rating: 4.8,
+    reviews: 124,
+    duration: '7 Days',
+    departureDate: '2023-11-15',
+    groupSize: 'Max 12',
+    difficulty: 'Moderate',
+    price: 1299,
+    discount: 15,
+    description: 'Experience the magic of Bali with our premium adventure package. This carefully curated journey takes you through Bali\'s most breathtaking landscapes, from lush jungles to pristine beaches, with luxury accommodations and expert guides.',
+    highlights: [
+      'Private villa accommodation',
+      'Daily breakfast included',
+      '3 guided cultural tours',
+      'Airport transfers',
+      '24/7 support'
+    ],
+    itinerary: [
+      { day: 1, title: 'Arrival & Ubud Tour', description: 'Arrive at Ngurah Rai Airport and transfer to your private villa. After settling in, enjoy a guided tour of Ubud\'s famous temples and markets.' },
+      { day: 2, title: 'Waterfall Adventure', description: 'Explore Bali\'s most spectacular waterfalls with a private guide, including Tegenungan and Tukad Cepung.' }
+    ],
+    included: ['Accommodation', 'Meals as listed', 'All tours', 'Entrance fees', 'English guide'],
+    notIncluded: ['Flights', 'Travel insurance', 'Personal expenses']
+  };
 
-const PackageDetail = () => {
-  
- 
-  
-  const axiosSecure=useAxiosSecure()
- const packageInfo=useLoaderData()
- console.log(packageInfo)
+  const toggleFavorite = () => {
+    setIsFavorite(!isFavorite);
+  };
 
-  const [date,setDate]=useState(new Date(Date.now()).toLocaleDateString())
-   
- const {user}=useContext(UserAuthContext)
-   
-    
-  
-  
-   const [counter,setCounter]=useState(packageInfo.bookingCount)
-  
-  
-  
-   
-   const handler=(e)=>{
-    e.preventDefault()
-    const form=e.target
-    const formdata=new FormData(form)
-    const bookingData=Object.fromEntries(formdata.entries())
-    bookingData.tour_id=packageInfo._id
-    bookingData.guide_name=packageInfo.guideName
-    bookingData.guide_email=packageInfo.guideEmail
-    bookingData.status='pending'
-    bookingData.departure_date=packageInfo.departureDate
-    
-    axiosSecure.post("/bookings",bookingData).then(res=>{
-      
-      if  (res.data.insertedId){
+  const calculatePrice = () => {
+    return packageData.price * (1 - packageData.discount / 100) * quantity;
+  };
 
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      {/* Package Header */}
+      <div className="flex flex-col md:flex-row gap-8">
+        {/* Image Gallery */}
+        <div className="w-full md:w-2/3">
+          <div className="relative rounded-2xl overflow-hidden h-96">
+            <img
+              src={packageData.image}
+              alt={packageData.title}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-4 right-4 flex gap-2">
+              <button 
+                onClick={toggleFavorite}
+                className="p-3 bg-white/90 rounded-full backdrop-blur-sm shadow-md hover:bg-white transition"
+              >
+                {isFavorite ? (
+                  <FaHeart className="text-red-500" />
+                ) : (
+                  <FaRegHeart className="text-gray-600" />
+                )}
+              </button>
+              <button className="p-3 bg-white/90 rounded-full backdrop-blur-sm shadow-md hover:bg-white transition">
+                <FaShareAlt className="text-gray-600" />
+              </button>
+            </div>
+            {packageData.discount > 0 && (
+              <div className="absolute top-4 left-4 bg-amber-500 text-white px-3 py-1 rounded-full font-bold text-sm">
+                -{packageData.discount}% OFF
+              </div>
+            )}
+          </div>
+        </div>
 
-        axiosSecure.post(`/package/${packageInfo._id}`).then(res=>{
-         if (res.data.modifiedCount){
-             setCounter(prev=>prev+1)
-         }
-        }
-        )
-        Swal.fire({
-  title: "You have successfully add a Booking.For confirm your booking go to My booking page and update your status",
-  icon: "success",
-  draggable: true
-});
-      }
-}).catch(err=>{
-  Swal.fire({
-  icon: "error",
-  title: "Oops...Not Booked",
-  text: err,
-  footer: '<a href="#">Why do I have this issue?</a>'
-});
-})
-   }
-   
-    return (
-        <div class="py-2 md:p-6 max-w-5xl mx-auto space-y-6">
-
-  <div class="flex justify-between items-center">
-    <h1 class="text-xl md:text-2xl font-semibold">{packageInfo.
-tourName
-    }</h1>
-    <h1 class="bg-blue-600 dark:text-white text-sm font-medium px-3 py-1 rounded">{packageInfo.duration}
-    </h1>
-  </div>
-
- 
-  <div class="border rounded-lg p-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-700 bg-white shadow">
-    <div><p class="font-medium">Accommodation</p><p>5 Stars Hotels</p></div>
-    <div><p class="font-medium">Departure City</p><p>{
-packageInfo.departureLocation}</p></div>
-    <div><p class="font-medium">Arrival City</p><p>{packageInfo.
-destination
-}</p></div>
-    <div><p class="font-medium">Best Season</p><p>Autumn</p></div>
-    <div className='col-span-2 md:col-span-1 flex flex-col  justify-center items-center'>
-        <div>
-    <img className='w-10 rounded-4xl' src={packageInfo.guidePhoto} alt="" />
-</div>
-        <div><p class="font-medium">Guide</p><p>Guide:{packageInfo.
-guideName
-}</p>
-<p class="font-medium">Guide</p><p>GuideMail:{packageInfo.
-guideEmail
-}</p></div>
-
-</div>
-    <div><p class="font-medium">Language</p><p>English, Deutsch</p></div>
-    <div><p class="font-medium">Meals</p><p>Breakfast and Dinner</p></div>
-    <div><p class="font-medium">Tour Availability</p><p>Available</p></div>
-    <div><p class="font-medium">Transportation</p><p>Bus, Taxi</p></div>
-    <div><p class="font-medium">Walking Hours</p><p>5–6 Hours</p></div>
-    <div><p class="font-medium">Minimum Age</p><p>12</p></div>
-    <div><p class="font-medium">Maximum Age</p><p>65</p></div>
-    <div><p class="font-medium">Group Size</p><p>6 - 10</p></div>
-    <div><p class="font-medium">Destinations</p></div>
-    <div><p class="font-medium">Date: {packageInfo.
-created_at
-}</p></div>
-    <div class="col-span-2"><p class="font-medium">Trip Type</p><p>Budget Travel, Nature Walk, Weekend Trips</p></div>
-    <div class="col-span-2"><p class="font-medium">Activities</p><p>Hiking, Kayaking, Paragliding, Road Cycling, Skiing</p></div>
-  </div>
-
-  
-  <div>
-    <div class="flex space-x-4 border-b pb-2">
-      <button class="text-blue-600 border-b-2 border-blue-600 font-medium">Overview</button>
-      <button class="dark:text-white">Itinerary</button>
-      <button class="dark:text-white">Cost</button>
-      <button class="dark:text-white">FAQs</button>
-      <button class="dark:text-white">Map</button>
-    </div>
-
-   
-    <div class="mt-4 space-y-4">
-      <div>
-        <h2 class="text-lg   font-semibold">Overview</h2>
-        <p class="text-sm dark:text-white mt-1">
-         {packageInfo.
-packageDetails}
-        </p>
-        <p class="text-sm dark:text-white mt-2">
-          Near the center of the square stood the “Great Ming Gate”... never part of the city wall but stood as an entrance...
-        </p>
+        {/* Booking Panel */}
+        <div className="w-full md:w-1/3">
+          <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sticky top-6">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">{packageData.title}</h2>
+            
+            <div className="flex items-center gap-1 mb-4">
+              <FaMapMarkerAlt className="text-amber-500" />
+              <span className="text-gray-600 dark:text-gray-300">{packageData.location}</span>
+            </div>
+            
+            <div className="flex items-center gap-2 mb-6">
+              <div className="flex items-center">
+                <FaStar className="text-amber-400" />
+                <span className="ml-1 font-medium">{packageData.rating}</span>
+              </div>
+              <span className="text-gray-500">({packageData.reviews} reviews)</span>
+            </div>
+            
+            <div className="space-y-4 mb-6">
+              <div className="flex items-center gap-3">
+                <FaClock className="text-amber-500" />
+                <span>{packageData.duration}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <FaCalendarAlt className="text-amber-500" />
+                <span>{new Date(packageData.departureDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <FaUserAlt className="text-amber-500" />
+                <span>{packageData.groupSize}</span>
+              </div>
+            </div>
+            
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mb-6">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-gray-600 dark:text-gray-300">Price per person:</span>
+                {packageData.discount > 0 ? (
+                  <div className="text-right">
+                    <span className="text-lg font-bold text-amber-600">${(packageData.price * (1 - packageData.discount / 100)).toFixed(2)}</span>
+                    <span className="ml-2 text-sm text-gray-400 line-through">${packageData.price}</span>
+                  </div>
+                ) : (
+                  <span className="text-lg font-bold text-amber-600">${packageData.price}</span>
+                )}
+              </div>
+              
+              <div className="flex justify-between items-center mb-4">
+                <label htmlFor="quantity" className="text-gray-600 dark:text-gray-300">Quantity:</label>
+                <div className="flex items-center border rounded-lg overflow-hidden">
+                  <button 
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+                  >
+                    -
+                  </button>
+                  <span className="px-4 py-1">{quantity}</span>
+                  <button 
+                    onClick={() => setQuantity(quantity + 1)}
+                    className="px-3 py-1 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              
+              <div className="flex justify-between items-center font-bold text-lg py-2">
+                <span>Total:</span>
+                <span className="text-amber-600">${calculatePrice()}</span>
+              </div>
+            </div>
+            
+            <button className="w-full bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white py-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2">
+              Book Now <FiArrowRight />
+            </button>
+          </div>
+        </div>
       </div>
 
-     
-      <div>
-        <h3 class="text-base font-semibold">Trip Highlights</h3>
-        <ul class="space-y-1 mt-2 text-sm dark:text-white">
-          <li class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414L9 12.414l4.707-4.707z" /></svg>
-            Trek to the world-famous Everest Base Camp
-          </li>
-          <li class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414L9 12.414l4.707-4.707z" /></svg>
-            Enjoy the amazing view of the Himalayas from Kala Patthar
-          </li>
-          <li class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414L9 12.414l4.707-4.707z" /></svg>
-            Travel through the Sherpa villages of Namche, Khumjung, Khunde, and Dingboche
-          </li>
-          <li class="flex items-center gap-2">
-            <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-10.707a1 1 0 00-1.414-1.414L9 9.586 7.707 8.293a1 1 0 00-1.414 1.414L9 12.414l4.707-4.707z" /></svg>
-            Visit Tengboche the biggest and oldest monastery in the region.
-          </li>
-        </ul>
+      {/* Package Content */}
+      <div className="mt-12">
+        {/* Navigation Tabs */}
+        <div className="border-b border-gray-200 dark:border-gray-700">
+          <nav className="flex space-x-8">
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`py-4 px-1 font-medium text-sm border-b-2 ${activeTab === 'overview' ? 'border-amber-500 text-amber-600' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            >
+              Overview
+            </button>
+            <button
+              onClick={() => setActiveTab('itinerary')}
+              className={`py-4 px-1 font-medium text-sm border-b-2 ${activeTab === 'itinerary' ? 'border-amber-500 text-amber-600' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            >
+              Itinerary
+            </button>
+            <button
+              onClick={() => setActiveTab('included')}
+              className={`py-4 px-1 font-medium text-sm border-b-2 ${activeTab === 'included' ? 'border-amber-500 text-amber-600' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            >
+              What's Included
+            </button>
+            <button
+              onClick={() => setActiveTab('reviews')}
+              className={`py-4 px-1 font-medium text-sm border-b-2 ${activeTab === 'reviews' ? 'border-amber-500 text-amber-600' : 'border-transparent text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+            >
+              Reviews
+            </button>
+          </nav>
+        </div>
+
+        {/* Tab Content */}
+        <div className="py-8">
+          {activeTab === 'overview' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">About This Tour</h3>
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed">{packageData.description}</p>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Tour Highlights</h3>
+                <ul className="space-y-3">
+                  {packageData.highlights.map((highlight, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <div className="flex-shrink-0 mt-1">
+                        <div className="w-2 h-2 rounded-full bg-amber-500"></div>
+                      </div>
+                      <span className="text-gray-600 dark:text-gray-300">{highlight}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'itinerary' && (
+            <div className="space-y-8">
+              {packageData.itinerary.map((day) => (
+                <div key={day.day} className="flex gap-6">
+                  <div className="flex flex-col items-center">
+                    <div className="w-12 h-12 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400 font-bold">
+                      {day.day}
+                    </div>
+                    <div className="flex-1 w-px bg-gray-200 dark:bg-gray-700 my-2"></div>
+                  </div>
+                  <div className="flex-1 pb-8">
+                    <h4 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{day.title}</h4>
+                    <p className="text-gray-600 dark:text-gray-300">{day.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {activeTab === 'included' && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">What's Included</h3>
+                <ul className="space-y-3">
+                  {packageData.included.map((item, index) => (
+                    <li key={index} className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 text-xs">
+                        ✓
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Not Included</h3>
+                <ul className="space-y-3">
+                  {packageData.notIncluded.map((item, index) => (
+                    <li key={index} className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
+                      <div className="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400 text-xs">
+                        ✕
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'reviews' && (
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-6">Customer Reviews</h3>
+              <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="text-4xl font-bold text-gray-900 dark:text-white">{packageData.rating}</div>
+                  <div>
+                    <div className="flex items-center mb-1">
+                      {[...Array(5)].map((_, i) => (
+                        <FaStar 
+                          key={i} 
+                          className={`${i < Math.floor(packageData.rating) ? 'text-amber-400' : 'text-gray-300'}`} 
+                        />
+                      ))}
+                    </div>
+                    <div className="text-gray-600 dark:text-gray-300">Based on {packageData.reviews} reviews</div>
+                  </div>
+                </div>
+                <div className="text-center py-8 text-gray-500">
+                  Reviews loading... (Would fetch real data in production)
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Similar Packages Section */}
+      <div className="mt-16">
+        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-8">You Might Also Like</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {/* These would be other package components in a real app */}
+          <div className="bg-gray-100 dark:bg-gray-700 rounded-xl h-64 flex items-center justify-center text-gray-400">
+            Similar Package 1
+          </div>
+          <div className="bg-gray-100 dark:bg-gray-700 rounded-xl h-64 flex items-center justify-center text-gray-400">
+            Similar Package 2
+          </div>
+          <div className="bg-gray-100 dark:bg-gray-700 rounded-xl h-64 flex items-center justify-center text-gray-400">
+            Similar Package 3
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-  <div className="shadow-md rounded-2xl p-5 w-full max-w-sm mx-auto flex flex-col items-center text-center space-y-4 border">
-      <div className="text-xl font-semibold text-black">Cost: ${packageInfo.price}/Adult</div>
-      <div className="text-sm text-gray-500">
-        Booked: <span className="font-medium">{counter
-}</span> times
-      </div>
-      <div className="divider-secondary "></div>
-      <div>
-        <button
-       onClick={()=>document.getElementById('my_modal_1').showModal()}
-        className="px-6 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition"
-      >
-        Book Now
-      </button>
-      <dialog id="my_modal_1" className="modal">
-  <div className="modal-box">
-    
-   <div class="bg-gray-100 p-6 max-w-4xl mx-auto rounded-md shadow-md">
-  <h2 class="text-xl text-black font-semibold mb-6">
-    You are booking for : <span class="font-bold text-2xl text-black">{packageInfo.tourName}</span>
-  </h2>
-
-  
-</div>
-    <div className="modal-action">
-      
-          <form method="dialog" onSubmit={handler} className="max-w-[500px] py-2 h-[70%] grid   md:grid-cols-2 gap-6">
-    
-  
-  <div>
-      <label class="block text-sm font-medium text-gray-700">Tour Package Name *</label>
-      <input type="text" name='tour_name' defaultValue={packageInfo.tourName} class="mt-1 w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 text-black focus:ring-blue-500" readOnly />
-    </div>
-
- 
-    <div>
-      <label class="block text-sm font-medium text-gray-700"> Name *</label>
-      <input type="text" defaultValue={user.displayName
-} name='buyer_name' class="mt-1 text-black w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" required/>
-    </div>
-
-   
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Email *</label>
-      <input type="email" defaultValue={user.email} name='buyer_email' class="mt-1 text-black w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
-    </div>
-
-   
-    <div>
-      <label class="block text-sm font-medium text-gray-700">Booking Date </label>
-      <input  type="text" defaultValue={date} name='booking_date:'  class="mt-1 text-black w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"/>
-    </div>
-
-    
-
-    
-    <div className='col-span-2'>
-      <label class="block text-sm font-medium text-gray-700">Additional Note</label>
-      <textarea rows="3" name='notes' class="mt-1 w-full text-black border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-    </div>
-    
-
-   
-   
-
-    
-   
-
-  <div className='text-2xl text-black flex justify-between items-center'>
-    <h1>Price:{packageInfo.price}</h1>
-     
-  </div>
-  <div>
-     <button onClick={()=>document.getElementById('my_modal_1').close()} className='btn  btn-primary w-full'  type='submit'>Submit</button>
-   </div>
-  
-   
-  </form>
-       
-      
-    </div>
-  </div>
-</dialog>
-      </div>
-    </div>
-</div>
-
-    );
+  );
 };
 
-export default PackageDetail;
+export default PackageDetails;

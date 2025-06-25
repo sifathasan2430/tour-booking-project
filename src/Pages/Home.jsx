@@ -38,6 +38,7 @@ const Home = () => {
     
     const navigate=useNavigate()
     const tours=useLoaderData()
+    console.log(tours)
    
     return (
         <div>
@@ -46,12 +47,12 @@ const Home = () => {
              
      
   {tours.length>0 ?  <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {  tours.splice(0,6).map(tour=>  <TourCardGrid key={tour._id} tour={tour
+        {  tours.slice(0,6).map(tour=>  <TourCardGrid key={tour._id} tour={tour
 
         }></TourCardGrid>)}
           </div>:<Loader></Loader>}
           <div className='mt-15'>
-            <button onClick={()=>navigate("/allpackage")} className='btn btn-secondary'>Show All</button>
+            <button onClick={()=>navigate("/allpackage")} className='btn bg-amber-500'>Show All</button>
           </div>
            </div>
            <div className='  '>
