@@ -13,8 +13,8 @@
 
 ## 🖼️ Preview
 
-![Tour App Screenshot](https://i.ibb.co/C3fx7n8/68747470733a2f2f6f776c6265727473696f2d726573697a65642e73332e616d617a6f6e6177732e636f6d2f506f70706572.png)
 
+<img height='500px' src="https://i.ibb.co/YF2LXsVG/Screenshot-2025-06-25-163056.png" alt="Screenshot-2025-06-25-163056" border="0">
 ---
 
 ## ✨ Features
@@ -55,31 +55,25 @@
 
 ## 📦 Dependencies
 
-### ➤ Frontend
+Install my-project with npm
 
-react
-react-dom
-react-router-dom
-axios
-framer-motion
-tailwindcss
-daisyui
-
-
-
-### ➤ Backend
-
+```bash
+  react
+  react-dom
+  react-router-dom
+  axios
+  framer-motion
+  tailwindcss
+  daisyui
+```
+# Backend Dependencies
+```bash 
 express
 cors
 dotenv
 firebase-admin
 mongodb
-
-yaml
-Copy
-Edit
-
----
+```
 
 ## 🚀 How to Run Locally
 
@@ -100,7 +94,7 @@ bash
 Copy
 Edit
 # Clone the repository
-git clone https://github.com/your-username/server-repo.git
+git clone https://github.com/sifathasan2430/tour-booking-project
 cd server-repo
 
 # Install dependencies
